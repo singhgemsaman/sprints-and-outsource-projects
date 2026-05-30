@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" class="scrollbar-none">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Prodesk IT - Building Your Digital Edge with Pixel-Perfect Experiences.">
+    <link rel="stylesheet" href="src/output.css">
+    <link rel="stylesheet" href="src/main.css">
+    <title>Prodesk IT</title>
+</head>
+
+<body class="bg-[#F5F6FA] dark:bg-[#121212]">
+
+
+    <header class="sticky top-0 z-[111] backdrop-blur-xs">
+
+        <!-- navigation -->
+        <!-- <nav class="navbar"> -->
+            
+        <nav id="navbar" class="flex justify-between items-center px-4 border-b border-gray-400 shadow-md shadow-[#c8c8c9] h-15.25 overflow-hidden ">
+            <!-- <div class="logo"> -->
+            <div class="size-15 ">
+                <img src="assets/logo.png" alt="Logo" class="bg-[#121212]">
+            </div>
+            <!-- <div class="toggle-container"> -->
+            <div class="flex grow justify-end px-8">
+                <!-- <div class="toggle" id="switch"> -->
+                <div class="cursor-pointer w-10 h-10 bg-[wheat] rounded-full" id="switch"></div>
+            </div>
+
+            <!-- <ul class="nav_items" id="nav_items"> -->
+            <ul id="nav_items" class="flex list-none gap-[2vw]" id="nav_items">
+                <li class="flex items-center">
+                    <a href="#" class="text-black dark:text-white p-[10px] hover:transform hover:scale-105">Home</a>
+                </li>
+                <li class="flex items-center">
+                    <a href="#" class="text-black dark:text-white p-[10px] hover:transform hover:scale-105">About</a>
+                </li>
+                <li class="flex items-center">
+                    <a href="#" class="text-black dark:text-white p-[10px] hover:transform hover:scale-105">Services</a>
+                </li>
+                <li class="flex items-center">
+                    <a href="#" class="text-black dark:text-white p-[10px] hover:transform hover:scale-105">Contact</a>
+                </li>
+            </ul>
+            <!-- <button class="hamburger" id="hamburger ">&#9776;</button> -->
+            <button id="hamburger" class=" text-black dark:text-white">&#9776;</button>
+        </nav>
+    </header>
+
+
+    <!-- hero section -->
+    <!-- <main class="hero"> -->
+      <main class="flex flex-col items-center justify-center px-4 py-12 bg-[#F5F6FA] dark:bg-[#121212]">
+        <!-- <div class="headline"> -->
+        <h1 class="text-5xl font-[3rem] text-center py-8 text-black dark:text-[#f1f1f1]">
+      We Build Digital Experiences
+    </h1>
+        <p class="text-center text-base leading-[1.4] px-16 pb-8 w-[calc(50%+50vw)] text-black dark:text-[#f1f1f1]">
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid magni veritatis id, mollitia consectetur ipsum provident error porro deserunt? Quasi rem doloribus nobis vero eos unde voluptatibus alias laborum minus!
+        </p>
+        <button id="get-started" class="flex items-center justify-center rounded-full 
+                                        w-[12rem] h-[3rem] bg-[#000000d0] text-[#f5f6fad5] 
+                                        dark:text-[#000000ec] dark:bg-[#f5deb3e1] 
+                                        hover:bg-[#000000ff] dark:hover:bg-[#f5deb3ff] 
+                                        border-none overflow-hidden p-[0.7rem] cursor-pointer relative" aria-label="navigate to services and details page">
+        </button>
+    </main>
+
+
+    <!-- services section -->
+    <section class="flex flex-col items-center justify-center px-4 py-12 bg-[wheat]">
+        <div class="text-[2.5rem] font-[2rem] text-[#121212] mb-8">Our Services</div>
+        <div class="flex flex-wrap justify-around gap-4 ">
+            <div class="flex flex-col justify-evenly bg-white rounded-lg shadow-md p-6 w-[300px]" id ="card">
+                <card-title class="pb-[0.5rem] text-[#121212] font-semibold ">SEO</card-title>
+                <p class="text-center">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quisquam!</p>
+            </div>
+            <!-- <div class="card"> -->
+            <div class="flex flex-col justify-evenly bg-white rounded-lg shadow-md p-6 w-[300px]" id ="card">
+                <card-title class="pb-[0.5rem] text-[#121212] font-semibold ">Web Dev</card-title>
+                <p class="text-center">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Neque?</p>
+            </div>
+            <div class="flex flex-col justify-evenly bg-white rounded-lg shadow-md p-6 w-[300px]" id ="card">
+                <card-title class="pb-[0.5rem] text-[#121212] font-semibold ">Marketing</card-title>
+                <p class="text-center">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque saepe illum eius.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- footer -->
+    <footer class="flex justify-between items-center bg-black text-white py-1 px-8">
+        <div class="copyright">Copyright © 2026 Prodesk IT <br>
+            All Rights Reserved.</div>
+        <div class="icon-container">
+            <ul class="flex list-none gap-4">
+                <li><img src="assets/instagram.jpg" alt="" class="size-8 rounded-[50px]"></li>
+                <li><img src="assets/linkedin.jpg" alt="" class="size-8 rounded-[50px]"></li>
+                <li><img src="assets/twitter.jpg" alt="" class="size-8 rounded-[50px]"></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script src="scripts/main.js" defer></script>
+
+</body>
+
+</html>

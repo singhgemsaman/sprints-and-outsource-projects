@@ -1,0 +1,44 @@
+:root {
+    --bg-color: #F5F6FA;
+    --text-color: #000000;
+    --primary-color: wheat;
+    --nav-shadow: #c8c8c9;
+    --get-started-btn-bg: #000000d0;
+    --get-started-btn-txt: #f5f6fad5;
+  }
+
+.dark-mode {
+--bg-color: #121212;
+--text-color: #f1f1f1;
+--nav-shadow: black;
+--get-started-btn-bg: rgba(245, 222, 179, 0.884);
+--get-started-btn-txt: #000000ec;
+
+}
+
+.toggle.ani, .toggle.moon.ani{
+  transform: rotateX(180deg);
+}
+
+.nav_items li a:hover{
+  transform: scale(1.05);
+}
+
+.get-started:hover{
+  background-color: var(--text-color);
+  color: var(--get-started-btn-txt);
+}
+
+.get-started:hover::before{
+  right: 25px;
+}
+.get-started:hover::after{
+  transform: scale(1);
+    right: 25px;
+    opacity: 1;
+}
+
+.card:hover{
+    transform: translateY(-20px) scale(1.1); /* Lift toward viewer */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}

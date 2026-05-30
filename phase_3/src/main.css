@@ -1,0 +1,104 @@
+body{
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#switch{
+    border: 5px dotted wheat;
+    background-clip: padding-box;
+    transform: rotateX(0deg);
+    transition: transform 0.3s ease;
+}
+#switch.moon{
+    border:none;
+    width: 2rem;
+    height: 2rem;
+    background-color: transparent;
+    box-shadow: inset -10px -10px white;
+    transform: rotateX(0deg);
+    transition: transform 0.3s ease;
+}
+#switch {
+  transition: transform 0.3s ease;
+}
+#switch.ani, #switch.moon.ani {
+  transform: rotateX(180deg);
+}
+
+#hamburger{
+    display: none;
+}
+#card{
+    transition:transform 0.3s ease;
+}
+#card:hover{
+    transform: translateY(-20px) scale(1.1);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+#get-started::before{
+    content: "Get Started";
+    font-size: 1.3rem;
+    position: absolute;
+    right: 0px; /*it is important to set right so transition can apply*/
+    left: 0px; /*used both left and ringh to zero to keep it centered*/
+    transition: right 0.3s ease;
+}
+#get-started::after{
+    content: "\2192";
+    font-size: 1.3rem;
+    text-shadow: 0px 1px 0px black;
+    position: absolute;
+    right: -5px;
+    transform: scale(0);
+    opacity: 0;
+    transition: right 0.3s ease, transform 0.3s ease, opacity 0.4s ease;
+}
+#get-started:hover::before{
+  right: 25px;
+}
+#get-started:hover::after{
+  transform: scale(1);
+    right: 25px;
+    opacity: 1;
+}
+
+@media (max-width: 700px){
+    #hamburger{
+        display: block;
+        transform: scale(2);
+        border: none;
+        background-color: transparent;
+    }
+
+    #nav_items{
+        display: none;
+        flex-direction: column;
+        justify-content: end;
+        gap: 0rem;
+        position: absolute;
+        top: 100%;
+        width: calc(100% - 2rem);
+        border-bottom-left-radius: 0.3rem;
+        border-bottom-right-radius: 0.3rem;
+        background: linear-gradient(rgb(196, 176, 139) 0%, wheat 5%);
+        /* box-shadow: 0px 0.1rem rgb(148, 148, 148); */
+        box-shadow: 0px 0.1rem ;
+    }
+    #nav_items.active{
+        display: flex;
+    }
+    
+    #nav_items li{
+        justify-content: center;
+        border-top: 2px solid;
+        width: 100%;
+    }
+    #nav_items li:first-child{
+        border: none;
+        padding-top: 0.3rem;
+    }
+    
+    #nav_items li a{
+        color: black;
+    }
+
+}
