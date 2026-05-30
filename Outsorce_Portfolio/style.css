@@ -6,13 +6,16 @@
 }
 
 :root {
-  --cream:   #faf7f2;
-  --ink:     #1a1410;
-  --muted:   #7a6e64;
-  --accent:  #c8552a;
-  --border:  #e0d8cf;
+  --cream:        #faf7f2;
+  --ink:          #1a1410;
+  --muted:        #8a7e74;
+  --accent:       #c8552a;
+  --accent-light: rgba(200, 85, 42, 0.08);
+  --border:       #e4dbd2;
+  --overlay:      rgba(20, 14, 10, 0.55);
   --font-display: 'Playfair Display', Georgia, serif;
   --font-body:    'DM Sans', sans-serif;
+  --gap:          10px;
 }
 
 html {
@@ -33,7 +36,7 @@ body {
 /* ── Header ───────────────────────────────────────── */
 header {
   border-bottom: 1px solid var(--border);
-  padding: 3.5rem 2rem 3rem;
+  padding: 4rem 2rem 3.5rem;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -44,9 +47,20 @@ header::before {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 60% 80% at 20% 50%, rgba(200, 85, 42, 0.06), transparent),
-    radial-gradient(ellipse 50% 70% at 80% 30%, rgba(26, 20, 16, 0.04), transparent);
+    radial-gradient(ellipse 55% 90% at 15% 50%, rgba(200, 85, 42, 0.07), transparent),
+    radial-gradient(ellipse 45% 70% at 85% 20%, rgba(26, 20, 16, 0.04), transparent);
   pointer-events: none;
+}
+
+/* decorative rule under tagline */
+header::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--accent);
+  margin: 1.5rem auto 0;
+  opacity: 0.5;
 }
 
 .header-inner {
@@ -55,12 +69,12 @@ header::before {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
 }
 
 .tagline {
-  font-size: 0.72rem;
-  letter-spacing: 0.25em;
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--accent);
   font-weight: 400;
@@ -68,11 +82,12 @@ header::before {
 
 .site-title {
   font-family: var(--font-display);
-  font-size: clamp(2.8rem, 7vw, 5rem);
+  font-size: clamp(3rem, 8vw, 5.5rem);
   font-weight: 700;
   line-height: 1;
   color: var(--ink);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
+  margin-top: 0.2rem;
 }
 
 .site-title em {
@@ -81,10 +96,28 @@ header::before {
 }
 
 .header-desc {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   color: var(--muted);
-  letter-spacing: 0.04em;
-  margin-top: 0.25rem;
+  letter-spacing: 0.06em;
+  margin-top: 0.1rem;
+}
+
+.cta-btn {
+  display: inline-block;
+  margin-top: 1.2rem;
+  padding: 0.65rem 1.6rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  text-decoration: none;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.cta-btn:hover {
+  background: var(--accent);
+  color: var(--cream);
 }
 
 /* ── Gallery Label ────────────────────────────────── */
@@ -92,66 +125,106 @@ header::before {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.4rem 2rem 0.8rem;
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
+  padding: 1.2rem 2rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--muted);
   border-bottom: 1px solid var(--border);
 }
 
-.count {
-  color: var(--accent);
-}
+.count { color: var(--accent); }
 
-/* ── Gallery Grid ─────────────────────────────────── */
+/* ── Masonry Grid ─────────────────────────────────── */
 main {
   flex: 1;
-  padding-bottom: 4rem;
+  padding: 2rem;
 }
 
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 2px;
-  background-color: var(--border);
-  border-bottom: 1px solid var(--border);
+.masonry {
+  columns: 4 250px;
+  column-gap: var(--gap);
 }
 
-.gallery img {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
-  display: block;
-  background-color: var(--cream);
-
-  /* Hover transition */
-  transition:
-    transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    filter 0.45s ease,
-    box-shadow 0.45s ease;
-  cursor: zoom-in;
-  filter: saturate(0.85);
-}
-
-.gallery img:hover {
-  transform: scale(1.05);
-  filter: saturate(1.15) contrast(1.02);
-  box-shadow: 0 12px 40px rgba(26, 20, 16, 0.22);
-  z-index: 2;
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: var(--gap);
   position: relative;
+  overflow: hidden;
+  background: var(--border);
+  cursor: zoom-in;
+}
+
+.masonry-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: saturate(0.88);
+  transition:
+    transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    filter 0.5s ease;
+  loading: lazy;
+}
+
+/* Caption overlay */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--overlay);
+  display: flex;
+  align-items: flex-end;
+  padding: 1rem 0.9rem;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.overlay span {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: #faf7f2;
+  letter-spacing: 0.03em;
+  transform: translateY(6px);
+  transition: transform 0.35s ease;
+}
+
+.masonry-item:hover img {
+  transform: scale(1.06);
+  filter: saturate(1.1) contrast(1.02);
+}
+
+.masonry-item:hover .overlay {
+  opacity: 1;
+}
+
+.masonry-item:hover .overlay span {
+  transform: translateY(0);
 }
 
 /* ── Footer ───────────────────────────────────────── */
 footer {
   border-top: 1px solid var(--border);
-  padding: 2rem;
+  padding: 2.5rem 2rem;
   text-align: center;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--muted);
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.4rem;
+}
+
+.footer-brand {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  margin-bottom: 0.2rem;
+}
+
+.footer-brand em {
+  font-style: italic;
+  color: var(--accent);
 }
 
 .footer-note a {
@@ -161,25 +234,19 @@ footer {
   transition: border-color 0.2s ease;
 }
 
-.footer-note a:hover {
-  border-color: var(--accent);
+.footer-note a:hover { border-color: var(--accent); }
+
+/* ── Responsive ───────────────────────────────────── */
+@media (max-width: 600px) {
+  header  { padding: 2.5rem 1.25rem 2rem; }
+  main    { padding: 1.25rem; }
+
+  .masonry { columns: 2 150px; }
+
+  .gallery-label { padding: 1rem 1.25rem; }
+  footer         { padding: 2rem 1.25rem; }
 }
 
-/* ── Responsive tweaks ────────────────────────────── */
-@media (max-width: 480px) {
-  header {
-    padding: 2.5rem 1.25rem 2rem;
-  }
-
-  .gallery-label {
-    padding: 1rem 1.25rem 0.7rem;
-  }
-
-  .gallery img {
-    height: 220px;
-  }
-
-  footer {
-    padding: 1.5rem 1.25rem;
-  }
+@media (max-width: 360px) {
+  .masonry { columns: 1; }
 }
