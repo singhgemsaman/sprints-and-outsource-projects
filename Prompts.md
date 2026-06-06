@@ -177,3 +177,164 @@ In Tailwind v4, dark mode uses `@variant dark` in CSS or `darkMode: 'class'` in 
 ---
 
 *This log was maintained in compliance with the Prodesk IT AI Usage Policy for Sprint 01.*
+
+---
+---
+
+# Prompts.md — AI Interaction Log
+
+**Project:** Sprint 02 — Cash-Flow (Salary & Expense Tracker)
+**Developer:** Aman
+**AI Tool Used:** Claude (Anthropic)
+**Policy:** All AI interactions logged as required by Prodesk IT AI Policy.
+
+---
+
+## Interaction Log
+
+---
+
+### Prompt 16
+**Prompt:**
+> "What is the difference between a state-driven architecture and directly manipulating the DOM on every event?"
+
+**Purpose:** Understanding the right mental model for building the app before writing any code, given that the sprint requires real-time state updates and localStorage persistence to work together.
+
+**What I learned / applied:**
+In a state-driven approach, a single `state` object is the source of truth. Every user action mutates the state, then one `render()` function re-paints the entire DOM from that state. This is simpler to reason about than scattered DOM writes because the UI always reflects exactly what's in the object — and it makes localStorage sync trivial since you only ever serialize one thing.
+
+---
+
+### Prompt 17
+**Prompt:**
+> "Why does adding two DOM input values sometimes produce '1010' instead of '20' in JavaScript?"
+
+**Purpose:** Understanding the type coercion issue flagged in the sprint FAQ before running into it during implementation.
+
+**What I learned / applied:**
+DOM `.value` always returns a string. The `+` operator concatenates strings before it adds numbers. Wrapping values in `Number()` or `parseFloat()` converts them to numeric types first, making arithmetic behave as expected. `parseFloat` is preferred for currency values to handle decimals.
+
+---
+
+### Prompt 18
+**Prompt:**
+> "What is `localStorage` and why can it only store strings?"
+
+**Purpose:** Understanding the persistence layer before implementing `saveState()` and `loadState()`.
+
+**What I learned / applied:**
+`localStorage` is a synchronous key-value store in the browser with a ~5MB limit per origin. It only accepts strings because it predates the Structured Clone Algorithm. `JSON.stringify()` serializes an object to a JSON string for storage, and `JSON.parse()` deserializes it back into a usable JS object on retrieval.
+
+---
+
+### Prompt 19
+**Prompt:**
+> "What is the `.reduce()` array method and how does it calculate a running total?"
+
+**Purpose:** Understanding the array method the sprint explicitly requires for calculating total expenses before using it.
+
+**What I learned / applied:**
+`.reduce(callback, initialValue)` iterates over an array and accumulates a single value. The callback receives an accumulator and the current item. For a sum, the accumulator starts at `0` and each iteration adds `currentItem.amount` to it. It's the idiomatic tool for collapsing an array into one value.
+
+---
+
+### Prompt 20
+**Prompt:**
+> "What does `DOMContentLoaded` do, and why would I use it instead of placing a script tag at the bottom of `<body>`?"
+
+**Purpose:** Understanding when and how to initialise the app — specifically when to call `loadState()` on page load.
+
+**What I learned / applied:**
+`DOMContentLoaded` fires when the HTML is fully parsed, before images and stylesheets finish loading. Placing scripts at the bottom of `<body>` achieves similar timing but can cause a flash. Wrapping initialisation in a `DOMContentLoaded` listener is the cleaner pattern when using `defer` on the script tag, as both ensure the DOM is ready before JS runs.
+
+---
+
+### Prompt 21
+**Prompt:**
+> "How does Chart.js get integrated into a plain HTML project without npm or a bundler?"
+
+**Purpose:** Understanding the CDN integration method required by the sprint before adding the pie chart.
+
+**What I learned / applied:**
+Chart.js exposes a UMD build via CDN. Adding the `<script src="...">` tag in the HTML makes `Chart` available as a global variable. No `import` statements are needed. The chart is initialized by passing a `<canvas>` element and a config object to `new Chart(canvas, config)`.
+
+---
+
+### Prompt 22
+**Prompt:**
+> "Why does my Chart.js pie chart duplicate every time I add a new expense, and what is the correct way to update it?"
+
+**Purpose:** Understanding the chart instance lifecycle before implementing the re-render logic.
+
+**What I learned / applied:**
+`new Chart()` always creates a new chart on top of whatever exists on the canvas. The fix is to store the chart instance in a variable (e.g., `let pieChart = null`) and call `pieChart.destroy()` before creating a new one. Alternatively, mutate `pieChart.data` directly and call `pieChart.update()` to avoid a full teardown.
+
+---
+
+### Prompt 23
+**Prompt:**
+> "What is a unique ID and why is it important when deleting an item from an array?"
+
+**Purpose:** Understanding why each expense object needs an `id` property before implementing the delete feature.
+
+**What I learned / applied:**
+When deleting by DOM position (index), the index shifts after every deletion, causing off-by-one errors. Assigning a stable unique ID (e.g., `Date.now()`) to each item when it is created means the delete handler can use `state.expenses.filter(e => e.id !== targetId)` — which always targets the correct item regardless of array order.
+
+---
+
+### Prompt 24
+**Prompt:**
+> "What does a REST API response look like, and how do I extract a specific value from it in JavaScript?"
+
+**Purpose:** Understanding how to consume the Frankfurter API response before writing the currency conversion feature.
+
+**What I learned / applied:**
+A REST API returns a JSON object over HTTP. `fetch(url)` returns a Promise; calling `.json()` on the response parses it into a JS object. Values are accessed via dot notation or bracket notation (e.g., `data.rates.USD`). If the response shape is nested or unexpected, checking it in the browser's Network tab first prevents guessing.
+
+---
+
+### Prompt 25
+**Prompt:**
+> "What is CORS and why does it block some API requests made from a browser?"
+
+**Purpose:** Understanding why the Frankfurter API call failed with a CORS error during development.
+
+**What I learned / applied:**
+CORS (Cross-Origin Resource Sharing) is a browser security policy that blocks requests to a different origin unless the server explicitly allows it via response headers. Server-side requests are unaffected. Public APIs like Frankfurter include `Access-Control-Allow-Origin: *` in their headers, so they work from the browser. CORS errors usually mean either the API doesn't allow browser requests, or the URL is wrong.
+
+---
+
+### Prompt 26
+**Prompt:**
+> "How does the `fetch` API work, and what is the difference between `.then()` chaining and `async/await`?"
+
+**Purpose:** Choosing the right pattern for handling the asynchronous Frankfurter API call before writing it.
+
+**What I learned / applied:**
+`fetch` returns a Promise. `.then()` chains callbacks for sequential async steps. `async/await` is syntactic sugar over Promises that makes async code read like synchronous code. Both achieve the same result; `async/await` is generally preferred for readability, especially when multiple sequential awaits are needed.
+
+---
+
+### Prompt 27
+**Prompt:**
+> "What is input validation and what are the edge cases I should guard against in a form that accepts numbers?"
+
+**Purpose:** Understanding what validation logic to write before implementing the Phase 1 requirement to prevent invalid submissions.
+
+**What I learned / applied:**
+Common numeric input edge cases: empty string (parses to `NaN`), zero, negative numbers, and non-numeric strings. `isNaN()` catches unparseable values. Explicit checks for `<= 0` guard against negative and zero amounts. Validation should run before any state mutation and surface a visible error message in the DOM rather than a `console.error` or `alert`.
+
+---
+
+### Prompt 28
+**Prompt:**
+> "How do I generate and download a PDF from browser content using jsPDF without a build tool?"
+
+**Purpose:** Understanding how jsPDF works via CDN before implementing the report download feature in Phase 3.
+
+**What I learned / applied:**
+jsPDF is available as a CDN script that exposes a `jspdf.jsPDF` global. A new document is created with `new jsPDF()`, text is added with `.text()`, and `.save('filename.pdf')` triggers the browser download. For tabular expense data, the `jspdf-autotable` plugin adds a `.autoTable()` method that formats an array of objects into a styled table automatically.
+
+---
+
+*This log was maintained in compliance with the Prodesk IT AI Usage Policy for Sprint 02.*

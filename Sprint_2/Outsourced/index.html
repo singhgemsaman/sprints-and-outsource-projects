@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🍪 Bake Sale Cart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --chalk:    #f5f0e8;
+      --chalk-dim: #c9c0aa;
+      --board:    #2b2b1e;
+      --board-mid:#343426;
+      --board-light: #3d3d2c;
+      --gold:     #e8b84b;
+      --gold-dim: #c49a32;
+      --pink:     #e87070;
+      --pink-dim: #c45050;
+      --green:    #7ec47e;
+      --green-dim:#5aaa5a;
+      --radius:   14px;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--board);
+      color: var(--chalk);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 16px 60px;
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 39px,
+          rgba(255,255,255,0.03) 40px
+        );
+    }
+
+    /* ── HEADER ── */
+    header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+    header .emoji-row {
+      font-size: 2rem;
+      letter-spacing: 6px;
+      margin-bottom: 6px;
+    }
+    header h1 {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(2.4rem, 6vw, 3.6rem);
+      color: var(--gold);
+      line-height: 1;
+      text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    }
+    header p {
+      font-size: 0.85rem;
+      color: var(--chalk-dim);
+      margin-top: 6px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    /* ── LAYOUT ── */
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      width: 100%;
+      max-width: 860px;
+    }
+    @media (max-width: 600px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+
+    /* ── PANEL ── */
+    .panel {
+      background: var(--board-mid);
+      border-radius: var(--radius);
+      padding: 24px;
+      border: 1.5px solid rgba(255,255,255,0.07);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .panel-title {
+      font-family: 'Caveat', cursive;
+      font-size: 1.6rem;
+      color: var(--gold);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1.5px dashed rgba(255,255,255,0.12);
+      padding-bottom: 12px;
+    }
+
+    /* ── MENU ITEMS ── */
+    .menu-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      gap: 12px;
+    }
+    .menu-item:last-child { border-bottom: none; }
+
+    .item-info { flex: 1; }
+    .item-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--chalk);
+    }
+    .item-desc {
+      font-size: 0.78rem;
+      color: var(--chalk-dim);
+      margin-top: 2px;
+    }
+    .item-price {
+      font-family: 'Caveat', cursive;
+      font-size: 1.35rem;
+      color: var(--gold);
+      min-width: 52px;
+      text-align: right;
+    }
+
+    .add-btn {
+      background: var(--green);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      width: 36px;
+      height: 36px;
+      font-size: 1.3rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, transform 0.1s;
+      flex-shrink: 0;
+    }
+    .add-btn:hover  { background: var(--green-dim); }
+    .add-btn:active { transform: scale(0.92); }
+
+    /* ── CART PANEL ── */
+    #cart-panel { display: flex; flex-direction: column; }
+
+    #cart-list {
+      flex: 1;
+      min-height: 140px;
+    }
+
+    .cart-empty {
+      text-align: center;
+      color: var(--chalk-dim);
+      font-size: 0.9rem;
+      padding: 32px 0;
+      font-style: italic;
+    }
+
+    .cart-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      animation: slideIn 0.2s ease;
+      gap: 8px;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(10px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .cart-row:last-child { border-bottom: none; }
+
+    .cart-row-name { flex: 1; font-size: 0.93rem; color: var(--chalk); }
+    .cart-row-price {
+      font-family: 'Caveat', cursive;
+      font-size: 1.15rem;
+      color: var(--chalk-dim);
+      min-width: 44px;
+      text-align: right;
+    }
+
+    .remove-btn {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 6px;
+      color: var(--chalk-dim);
+      width: 26px;
+      height: 26px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, color 0.15s;
+      flex-shrink: 0;
+    }
+    .remove-btn:hover { background: var(--pink); color: #fff; border-color: var(--pink); }
+
+    /* ── TOTAL ── */
+    .total-box {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 2px dashed rgba(255,255,255,0.15);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .total-label {
+      font-family: 'Caveat', cursive;
+      font-size: 1.3rem;
+      color: var(--chalk-dim);
+    }
+    .total-amount {
+      font-family: 'Caveat', cursive;
+      font-size: 2rem;
+      color: var(--gold);
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+      transition: transform 0.15s;
+    }
+    .total-amount.pop {
+      animation: pop 0.25s ease;
+    }
+    @keyframes pop {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.18); }
+      100% { transform: scale(1); }
+    }
+
+    /* ── ACTION BUTTONS ── */
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .btn {
+      flex: 1;
+      padding: 11px 0;
+      border-radius: 9px;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+      letter-spacing: 0.3px;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-clear  { background: var(--board-light); color: var(--chalk-dim); border: 1.5px solid rgba(255,255,255,0.1); }
+    .btn-clear:hover { color: var(--chalk); }
+    .btn-charge { background: var(--gold); color: var(--board); }
+    .btn-charge:hover { background: var(--gold-dim); }
+
+    /* ── RECEIPT OVERLAY ── */
+    #receipt-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    #receipt-overlay.show { display: flex; }
+
+    .receipt {
+      background: #fdf8f0;
+      color: #2b2b1e;
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      max-width: 320px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      animation: slideUp 0.25s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+    .receipt h2 {
+      font-family: 'Caveat', cursive;
+      font-size: 1.8rem;
+      color: var(--green-dim);
+      margin-bottom: 4px;
+    }
+    .receipt-total {
+      font-family: 'Caveat', cursive;
+      font-size: 3rem;
+      color: var(--board);
+      margin: 10px 0;
+    }
+    .receipt p { font-size: 0.85rem; color: #666; margin-bottom: 18px; }
+    .btn-done {
+      background: var(--green);
+      color: #fff;
+      border: none;
+      border-radius: 9px;
+      padding: 12px 32px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-done:hover { background: var(--green-dim); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="emoji-row">🧁 🍪 🍫</div>
+    <h1>Bake Sale Register</h1>
+    <p>Westfield High School PTA &nbsp;·&nbsp; Offline Mode</p>
+  </header>
+
+  <div class="layout">
+
+    <!-- MENU -->
+    <div class="panel">
+      <div class="panel-title">🛒 Today's Menu</div>
+      <div id="menu-list"></div>
+    </div>
+
+    <!-- CART -->
+    <div class="panel" id="cart-panel">
+      <div class="panel-title">📋 Current Order</div>
+      <div id="cart-list">
+        <p class="cart-empty">No items yet — add something!</p>
+      </div>
+      <div class="total-box">
+        <span class="total-label">Total</span>
+        <span class="total-amount" id="total-display">$0.00</span>
+      </div>
+      <div class="actions">
+        <button class="btn btn-clear" onclick="clearCart()">Clear</button>
+        <button class="btn btn-charge" onclick="charge()">Charge Customer</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RECEIPT OVERLAY -->
+  <div id="receipt-overlay">
+    <div class="receipt">
+      <h2>✅ Payment Received!</h2>
+      <div class="receipt-total" id="receipt-total"></div>
+      <p>Thank you for supporting the PTA bake sale! 🎉</p>
+      <button class="btn-done" onclick="closeReceipt()">Next Customer →</button>
+    </div>
+  </div>
+
+  <script>
+    // ─────────────────────────────────────────
+    // PHASE 1 · State
+    // ─────────────────────────────────────────
+    let cart = [];
+
+    const MENU = [
+      { id: 1, name: 'Brownie',  emoji: '🍫', price: 2.00, desc: 'Rich chocolate fudge brownie' },
+      { id: 2, name: 'Cookie',   emoji: '🍪', price: 1.00, desc: 'Classic oatmeal raisin cookie' },
+      { id: 3, name: 'Cupcake',  emoji: '🧁', price: 1.50, desc: 'Vanilla buttercream cupcake'  },
+    ];
+
+    // ─────────────────────────────────────────
+    // PHASE 0 · Build Menu UI
+    // ─────────────────────────────────────────
+    function buildMenu() {
+      const list = document.getElementById('menu-list');
+      list.innerHTML = MENU.map(item => `
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">${item.emoji} ${item.name}</div>
+            <div class="item-desc">${item.desc}</div>
+          </div>
+          <div class="item-price">$${item.price.toFixed(2)}</div>
+          <button class="add-btn" onclick="addItem(${item.id})" title="Add ${item.name}">+</button>
+        </div>
+      `).join('');
+    }
+
+    // ─────────────────────────────────────────
+    // PHASE 2 · Add Items
+    // ─────────────────────────────────────────
+    function addItem(id) {
+      const item = MENU.find(m => m.id === id);
+      if (!item) return;
+      cart.push({ name: item.name, emoji: item.emoji, price: item.price });
+      renderCart();
+    }
+
+    // ─────────────────────────────────────────
+    // PHASE 3 · Render & Math Logic
+    // ─────────────────────────────────────────
+    function renderCart() {
+      const listEl   = document.getElementById('cart-list');
+      const totalEl  = document.getElementById('total-display');
+
+      if (cart.length === 0) {
+        listEl.innerHTML = '<p class="cart-empty">No items yet — add something!</p>';
+        totalEl.textContent = '$0.00';
+        return;
+      }
+
+      // Render rows
+      listEl.innerHTML = cart.map((item, index) => `
+        <div class="cart-row">
+          <span class="cart-row-name">${item.emoji} ${item.name}</span>
+          <span class="cart-row-price">$${item.price.toFixed(2)}</span>
+          <button class="remove-btn" onclick="removeItem(${index})" title="Remove">✕</button>
+        </div>
+      `).join('');
+
+      // .reduce() to calculate total (Phase 3 requirement)
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      totalEl.textContent = `$${total.toFixed(2)}`;
+
+      // Pop animation on total update
+      totalEl.classList.remove('pop');
+      void totalEl.offsetWidth; // reflow to restart animation
+      totalEl.classList.add('pop');
+    }
+
+    // ─────────────────────────────────────────
+    // EXTRA · Remove & Clear
+    // ─────────────────────────────────────────
+    function removeItem(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
+
+    function clearCart() {
+      cart = [];
+      renderCart();
+    }
+
+    // ─────────────────────────────────────────
+    // EXTRA · Charge & Receipt
+    // ─────────────────────────────────────────
+    function charge() {
+      if (cart.length === 0) return;
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      document.getElementById('receipt-total').textContent = `$${total.toFixed(2)}`;
+      document.getElementById('receipt-overlay').classList.add('show');
+    }
+
+    function closeReceipt() {
+      document.getElementById('receipt-overlay').classList.remove('show');
+      clearCart();
+    }
+
+    // ─────────────────────────────────────────
+    // Init
+    // ─────────────────────────────────────────
+    buildMenu();
+  </script>
+</body>
+</html>
