@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="src/output.css">
+</head>
+
+<body class="">
+
+    <!-- action section -->
+    <div id="actions_container" class="flex gap-1 p-1 flex-col md:flex-row items-center">
+        
+        <button id="toggleMode_btn" onclick="switch_mode()" class="w-1/2 md:w-1/6 py-1 px-2 border" >Switch Mode</button>
+
+        <div class="flex justify-center w-full md:w-4/6">
+            <div id="field_container" class="flex w-full gap-1 flex-col md:flex-row"></div>
+        </div>
+
+        <button id="submit" onclick="submit_all()" class="w-1/2 md:w-1/6 py-1 px-2 border">Submit</button>
+
+    </div>
+
+    <!-- cards -->
+    <div id="container" class="flex justify-center flex-wrap w-full"><div id="card_container" class="flex flex-col md:flex-row w-full gap-1 justify-center p-1"></div></div>
+    <div class="flex justify-center flex-wrap w-full"><div id="top_repos_container" class="flex w-full gap-1 justify-center p-1"></div></div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>

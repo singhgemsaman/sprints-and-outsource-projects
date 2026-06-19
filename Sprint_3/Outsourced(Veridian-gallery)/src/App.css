@@ -1,0 +1,29 @@
+.app-main {
+  flex: 1;
+  padding-top: var(--nav-height);
+  min-height: calc(100vh - var(--nav-height));
+}
+
+.loading-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-gold), var(--accent-rose));
+  z-index: 10000;
+  animation: loadingBar 1.5s ease-in-out infinite;
+}
+
+@keyframes loadingBar {
+  0% {
+    width: 0;
+    left: 0;
+  }
+  50% {
+    width: 60%;
+  }
+  100% {
+    width: 0;
+    left: 100%;
+  }
+}
