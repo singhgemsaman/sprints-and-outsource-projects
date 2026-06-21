@@ -31,20 +31,17 @@ function battel_result(i) {
     const result = star_store[0] > star_store[1] ? [1, 0] : [0, 1];
     if (!mode) {
         return ` <div id="card_${i + 1}" class="border-2 rounded p-5 w-full md:w-1/2"> `
+    }
+    if (star_store[0] === star_store[1]) {
+        return ` <div id="card_${i + 1}" class="border-2 rounded p-5 w-full md:w-1/2">
+                <div class="text-center font-bold text-2xl">DRAW</div> `
+    }
+    if (result[i]) {
+        return ` <div id="card_${i + 1}" class="border-2 border-green-500 rounded p-5 w-full md:w-1/2">
+        <div class="text-center font-bold text-2xl text-green-500">WON</div> `
     }else {
-        if (star_store[0] === star_store[1]) {
-            return ` <div id="card_${i + 1}" class="border-2 rounded p-5 w-full md:w-1/2">
-                    <div class="text-center font-bold text-2xl">DRAW</div> `
-        }else {
-            if (result[i]) {
-                return ` <div id="card_${i + 1}" class="border-2 border-green-500 rounded p-5 w-full md:w-1/2">
-                <div class="text-center font-bold text-2xl text-green-500">WON</div> `
-            }else {
-                return ` <div id="card_${i + 1}" class="border-2 border-red-700 rounded p-5 w-full md:w-1/2">
-                <div class="text-center font-bold text-2xl text-red-700">LOST</div> `
-            }
-            
-        }
+        return ` <div id="card_${i + 1}" class="border-2 border-red-700 rounded p-5 w-full md:w-1/2">
+        <div class="text-center font-bold text-2xl text-red-700">LOST</div> `
     }
 }
 

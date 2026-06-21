@@ -338,3 +338,56 @@ jsPDF is available as a CDN script that exposes a `jspdf.jsPDF` global. A new do
 ---
 
 *This log was maintained in compliance with the Prodesk IT AI Usage Policy for Sprint 02.*
+
+
+
+---
+---
+
+# Prompts.md — AI Interaction Log
+
+**Project:** Sprint 03 — Dev-Detective (GitHub User Profile Search App)
+**Developer:** Aman
+**AI Tool Used:** Claude (Anthropic)
+**Policy:** All AI interactions logged as required by Prodesk IT AI Policy.
+
+---
+
+## Interaction Log
+
+---
+
+### Prompt 29
+**Prompt:**
+> "List Rendering: Map and render the Top 5 Latest Repositories below the main profile card. Ensure the repo names are clickable `<a href>` links opening in a new tab — what does this actually require?"
+
+**Purpose:** Clarifying a sprint requirement before implementing the repository list feature.
+
+**What I learned / applied:**
+The requirement means mapping over the fetched repos array, slicing to the top 5, and rendering each as a list item where the repo name is wrapped in an `<a href="{html_url}">` tag. `target="_blank"` opens it in a new tab, and `rel="noopener noreferrer"` is the standard safety pairing that prevents the new tab from accessing the original page via `window.opener`.
+
+---
+
+### Prompt 30
+**Prompt:**
+> "What order does the GitHub API return a user's repos in by default — should I sort the response after fetching, or request a sorted response via a query parameter?"
+
+**Purpose:** Deciding the correct way to fetch the top 5 latest repos before writing the fetch call.
+
+**What I learned / applied:**
+GitHub returns repos sorted alphabetically by `full_name` by default. Sorting via the query parameter (`?sort=created&direction=desc&per_page=5`) is the correct approach rather than sorting client-side, because the API only returns 30 repos per page by default — client-side sorting on an unsorted first page would silently produce wrong results for users with more than 30 repos.
+
+---
+
+### Prompt 31
+**Prompt:**
+> "Is the API actually being called inside the loop where `fetch()` is invoked, or at `Promise.all()` — and is `Promise.all()` serving its purpose here?"
+
+**Purpose:** Understanding exactly when an HTTP request fires versus when its result is awaited, before relying on `Promise.all()` to run two user lookups in parallel for Battle Mode.
+
+**What I learned / applied:**
+`fetch()` fires the request immediately when it's called — `Promise.all()` doesn't trigger anything, it just waits for promises that are already in flight. Using `Promise.all()` around the array of fetch calls runs both user lookups simultaneously instead of sequentially, which is exactly why it's the right tool for Battle Mode's two-user comparison.
+
+---
+
+*This log was maintained in compliance with the Prodesk IT AI Usage Policy for Sprint 03.*
