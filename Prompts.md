@@ -391,3 +391,131 @@ GitHub returns repos sorted alphabetically by `full_name` by default. Sorting vi
 ---
 
 *This log was maintained in compliance with the Prodesk IT AI Usage Policy for Sprint 03.*
+
+```md
+# Prompts.md — AI Interaction Log
+
+**Project:** Sprint 04 — AI Cover Letter Generator (SaaS Utility)
+**Developer:** Aman
+**AI Tool Used:** Claude (Anthropic)
+**Policy:** All AI interactions logged as required by Prodesk IT AI Policy.
+
+---
+
+## Interaction Log
+
+---
+
+### Prompt 32
+**Prompt:**
+> "Show me an example of a resume and a cover letter."
+
+**Purpose:** Understanding the structure and tone of a professional cover letter before designing the generator.
+
+**What I learned / applied:**
+A cover letter follows a fixed three-paragraph structure — introduction (who you are and what you're applying for), body (specific skills and value you bring), and closing (call to action). Understanding this structure first informed how to design both the template string for Phase 1 and the prompt instructions for Phase 2.
+
+---
+
+### Prompt 33
+**Prompt:**
+> "Give example inputs and explain what parts of the resume will be extracted. Do users still need to fill the form after uploading a resume?"
+
+**Purpose:** Understanding the relationship between structured form inputs and unstructured resume text as data sources for the LLM payload.
+
+**What I learned / applied:**
+Form inputs provide structured, targeted data (name, role, company, skills). The resume provides unstructured context (projects, experience, achievements). They are complementary — not interchangeable. The form is still required even with a resume upload because the LLM needs explicit targeting information that may not be clearly stated in a resume.
+
+---
+
+### Prompt 34
+**Prompt:**
+> "Show me an example of the system prompt asking for a structured Cover Letter to the Gemini."
+
+**Purpose:** Understanding prompt engineering — how to structure an LLM payload to produce reliable, formatted output.
+
+**What I learned / applied:**
+Wrapping different data sources in XML-style tags (`<CANDIDATE_DATA>`, `<JOB_DESCRIPTION>`, `<RESUME_TEXT>`) gives the LLM clear boundaries between sections. Including explicit formatting rules in the prompt (return only `<p>` tags, no markdown, no backticks) produces consistent, renderable output rather than raw markdown that requires additional parsing.
+
+---
+
+### Prompt 35
+**Prompt:**
+> "What are the steps to create a free tier Gemini API key?"
+
+**Purpose:** Understanding the difference between Google AI Studio (free tier) and Google Cloud (billing-based) before provisioning an API key.
+
+**What I learned / applied:**
+Google AI Studio at aistudio.google.com provides free Gemini API keys without requiring billing setup — unlike the Google Cloud Console which requires a payment method even for free tier usage. The key generated from AI Studio is used directly in REST requests to the `generativelanguage.googleapis.com` endpoint.
+
+---
+
+### Prompt 36
+**Prompt:**
+> "What is the difference between the change and input event listeners?"
+
+**Purpose:** Choosing the correct event for capturing form field updates in vanilla JS.
+
+**What I learned / applied:**
+`input` fires on every keystroke as the user types — state stays in sync live. `change` fires only when the element loses focus after a value change — useful for select dropdowns or when you want to validate after the user finishes typing rather than during. For text inputs in this project, `input` is more appropriate for live state capture.
+
+---
+
+### Prompt 37
+**Prompt:**
+> "Can I store the Gemini API URL in .env as well, not just the API key?"
+
+**Purpose:** Understanding what belongs in .env beyond just secrets.
+
+**What I learned / applied:**
+Any value that might differ between environments (development vs production) or that you want to change without editing source code belongs in `.env` — not just API keys. The API base URL qualifies because it could change if switching models or API versions. Centralising it in `.env` means one file to update rather than hunting through source files.
+
+---
+
+### Prompt 38
+**Prompt:**
+> "Does navigator.clipboard.writeText() copy the HTML tags or only the plain text?"
+
+**Purpose:** Understanding what gets placed on the clipboard when copying the generated cover letter.
+
+**What I learned / applied:**
+`navigator.clipboard.writeText()` copies only a plain string — it does not interpret HTML. If you pass `element.innerHTML`, the `<p>` tags are copied literally as characters. To copy only the visible text, `element.innerText` or `element.textContent` should be used instead. `innerText` respects CSS visibility and line breaks; `textContent` returns all text nodes including hidden ones.
+
+---
+
+
+### Prompt 39
+**Prompt:**
+> "What is a Web Worker and why does PDF.js require a workerSrc to be set?"
+
+**Purpose:** Understanding why pdfjs-dist needs a separate worker file before configuring it in the project.
+
+**What I learned / applied:**
+PDF parsing is computationally heavy. Running it on the main JS thread would freeze the browser UI during extraction. A Web Worker is a background thread that runs JS independently of the main thread. PDF.js offloads all parsing work to a worker so the UI stays responsive. `workerSrc` tells PDF.js where to find that worker file — without it, the library falls back to a fake worker that runs on the main thread and logs a warning.
+
+---
+
+### Prompt 40
+**Prompt:**
+> "What does file.arrayBuffer() do and why is it needed before passing a file to PDF.js?"
+
+**Purpose:** Understanding why a File object cannot be passed directly to getDocument() before writing the extraction function.
+
+**What I learned / applied:**
+A `File` object from a file input is a high-level browser abstraction — it holds metadata and a reference to the file but not the raw bytes. PDF.js `getDocument()` needs the actual binary content to parse. `file.arrayBuffer()` reads the file and returns its raw bytes as an `ArrayBuffer` in memory. It returns a Promise because reading a file from disk is an asynchronous operation.
+
+---
+
+### Prompt 41
+**Prompt:**
+> "Why does getTextContent() return an array of objects instead of a plain string?"
+
+**Purpose:** Understanding the PDF.js text extraction data structure before writing the parser.
+
+**What I learned / applied:**
+PDF.js models each page's text as an array of individual text chunk objects, each containing positional data, font information, and the actual string in a `str` property. This granular structure exists because PDFs don't have a native concept of "a paragraph" — text is stored as positioned fragments. `.map(item => item.str)` extracts only the string from each object, and `.join(' ')` collapses the array into a single readable string suitable for appending to the Gemini prompt.
+
+---
+
+*This log was maintained in compliance with the Prodesk IT AI Usage Policy for Sprint 04.*
+```

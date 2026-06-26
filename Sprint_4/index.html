@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sprint-4</title>
+</head>
+
+<body>
+    <div id="app">
+
+        <div>
+            <div class="flex w-full flex-col gap-2 p-2 lg:flex-row h-[40rem]">
+                <div class="flex flex-col border rounded w-full lg:w-2/5 justify-center px-15 pt-5">
+                    <form id="form" class="flex flex-col gap-1">
+                        <div id="switchmode"
+                            class="rounded my-2 px-2 py-2 border font-bold bg-gray-900 text-gray-200 text-center cursor-pointer
+                                active:bg-gray-400 
+                                active:outline-1 
+                                active:outline-gray-300 
+                                active:text-gray-600">
+                            Switch to AI Mode
+                        </div>
+
+                        <label for="Name" class="font-bold">Name:</label>
+                        <input type="text" id="Name" required
+                            class="border-2 rounded border-gray-400 px-2 py-1 focus:border-black">
+
+                        <label for="Job Role" class="font-bold">Job Role:</label>
+                        <input type="text" id="Job Role" required
+                            class="border-2 rounded border-gray-400 px-2 py-1 focus:border-black">
+
+                        <label for="Target Company" class="font-bold">Target Company:</label>
+                        <input type="text" id="Target Company" required
+                            class="border-2 rounded border-gray-400 px-2 py-1 focus:border-black">
+
+                        <label for="Key Skills" class="font-bold">Key Skills:</label>
+                        <textarea name="" rows="3" id="Key Skills"
+                            class="resize-none border-2 rounded border-gray-400 px-2 py-1 focus:border-black"></textarea>
+
+                        <label for="Job Description" class="font-bold">Job Description:</label>
+                        <textarea name="" rows="4" id="Job Description"
+                            class="resize-none border-2 rounded border-gray-400 px-2 py-1 focus:border-black"></textarea>
+
+                        <button type="submit" id="submit"
+                            class="rounded my-2 px-2 py-2 border font-bold bg-gray-900 text-gray-200 cursor-pointer
+                                active:bg-gray-400 
+                                active:outline-1 
+                                active:outline-gray-300 
+                                active:text-gray-700">
+                            Generate
+                        </button>
+                    </form>
+                </div>
+
+                <div class="w-full lg:w-3/5 flex justify-center relative">
+                    <div id="container" class="flex justify-center w-full border rounded">
+                        <div class="flex flex-col items-center justify-center w-full p-3 text-center sm:p-0">
+                            <p>You are in Demo mode.</p>
+                            <p>Switch to AI mode for AI customized cover letter.</p>
+                        </div>
+                    </div>
+                    <div id="copy_btn" class="absolute right-0 bg-gray-300 px-3 pb-1 m-1 flex items-center rounded h-9 cursor-pointer 
+                                        active:bg-gray-200 
+                                        active:outline-1 
+                                        active:outline-gray-300
+                                        active:text-gray-700">
+                        copy
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
